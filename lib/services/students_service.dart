@@ -1,27 +1,24 @@
 import 'package:http/http.dart' as http;
+import 'package:student_app/model/student_list_model.dart';
 
 import 'dart:convert';
-
-import 'package:student_app_ruff/constants/constants.dart';
-import 'package:student_app_ruff/model/student_list_model.dart';
 
 import 'prefs_manager.dart';
 
 class StudentsService {
-  Future<(String?, List<StudentModel>?)> getAllStudents(
-      {required String userId}) async {
+  Future<
+      (
+        String?,
+        List<StudentModel>?,
+      )> getAllStudents({required String? userId}) async {
     try {
       final token = await PrefsManager().getToken();
 
-      const url = "http://${Constants.ipAddress}:3000/student/all/";
+      final url = "https://std-app-server.onrender.com/student/all/$userId";
 
       final response = await http.get(
         Uri.parse(
           url,
-        ).replace(
-          queryParameters: {
-            "userId": userId,
-          },
         ),
         headers: {
           "Authorization": "Bearer $token",

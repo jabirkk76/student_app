@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app_ruff/controller/add_student_controller.dart';
+import 'package:student_app/controller/add_student_controller.dart';
 
 class DropDownFormFieldWidget extends StatelessWidget {
   DropDownFormFieldWidget({

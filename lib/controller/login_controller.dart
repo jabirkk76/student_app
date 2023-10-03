@@ -1,13 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
-import 'package:student_app_ruff/model/login_model.dart';
-import 'package:student_app_ruff/services/login_service.dart';
-import 'package:student_app_ruff/services/prefs_manager.dart';
-import 'package:student_app_ruff/view/home_screen/home_screen.dart';
-import 'package:student_app_ruff/view/sign_up_screen/sign_up_screen.dart';
+import 'package:student_app/helpers/app_colors.dart';
+import 'package:student_app/model/login_model.dart';
+import 'package:student_app/services/login_service.dart';
+import 'package:student_app/services/prefs_manager.dart';
+import 'package:student_app/view/home_screen/home_screen.dart';
+import 'package:student_app/view/sign_up_screen/sign_up_screen.dart';
 
 class LoginController with ChangeNotifier {
   bool isLoading = false;
+  String errorMsg = '';
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isObscure = true;
@@ -20,35 +23,35 @@ class LoginController with ChangeNotifier {
     ));
   }
 
-  void login(BuildContext context) {
+  void login(BuildContext context) async {
     isLoading = true;
     notifyListeners();
-    LoginService()
-        .Login(
-            loginPostModel: LoginPostModel(
-                userEmail: emailController.text,
-                userPassword: passwordController.text))
-        .then((serviceResponse) {
-      if (serviceResponse != null) {
-        String userId = serviceResponse.data!.id ?? "";
-        String userName = serviceResponse.data!.username;
+    final (msg, serviceRespnse) = await LoginService().Login(
+        loginPostModel: LoginPostModel(
+            userEmail: emailController.text,
+            userPassword: passwordController.text));
 
-        PrefsManager().storeUserId(userId);
-        PrefsManager().storeUserName(userName);
+    if (serviceRespnse != null) {
+      String userId = serviceRespnse.data.id;
+      String userName = serviceRespnse.data.username;
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ));
+      await PrefsManager().storeUserId(userId);
+      await PrefsManager().storeUserName(userName);
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: AppColors.green,
-            content: const Center(child: Text('Logged In Successfully'))));
-        emailController.clear();
-        passwordController.clear();
-      } else {
-        return null;
-      }
-    });
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const HomeScreen(),
+      ));
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: AppColors.green,
+          content: const Center(child: Text('Logged In Successfully'))));
+      emailController.clear();
+      passwordController.clear();
+    } else {
+      errorMsg = msg!;
+      notifyListeners();
+    }
+
     isLoading = false;
     notifyListeners();
   }

@@ -1,10 +1,12 @@
 class EditStudentPostModel {
+  String studentId;
   String name;
-  String age;
+  int age;
   String domain;
   String gender;
 
   EditStudentPostModel({
+    required this.studentId,
     required this.name,
     required this.age,
     required this.domain,
@@ -12,6 +14,7 @@ class EditStudentPostModel {
   });
 
   Map<String, dynamic> toJson() => {
+        "studentId": studentId,
         "name": name,
         "age": age,
         "domain": domain,
@@ -36,22 +39,19 @@ class EditStudentResponseModel {
 }
 
 class Data {
-  String? name;
-  String? age;
-  String? domain;
-  String? gender;
+  String name;
+  int age;
+  String domain;
 
   Data({
     required this.name,
     required this.age,
     required this.domain,
-    required this.gender,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         name: json["name"],
         age: json["age"],
         domain: json["domain"],
-        gender: json["gender"],
       );
 }

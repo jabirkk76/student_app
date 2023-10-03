@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
-import 'package:student_app_ruff/helpers/app_sizes.dart';
+import 'package:student_app/helpers/app_colors.dart';
+import 'package:student_app/helpers/app_sizes.dart';
 
 class CustomSettingsWidget extends StatelessWidget {
   CustomSettingsWidget(

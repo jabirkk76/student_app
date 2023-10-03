@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:student_app/services/prefs_manager.dart';
 import 'package:student_app/view/home_screen/home_screen.dart';
@@ -8,7 +9,7 @@ class SplashController with ChangeNotifier {
   Future<void> splash(BuildContext context) async {
     String? storedUserId = await PrefsManager().getUserId();
 
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
 
     if (storedUserId != null) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(

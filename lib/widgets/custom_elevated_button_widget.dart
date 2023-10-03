@@ -1,9 +1,10 @@
-// ignore_for_file: must_be_immutable, duplicate_ignore
+// ignore_for_file: must_be_immutable, duplicate_ignore, sort_child_properties_last
 
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
+
+import '../helpers/app_colors.dart';
 
 class CustomElevatedButtonWidget extends StatelessWidget {
   CustomElevatedButtonWidget(
@@ -31,7 +32,7 @@ class CustomElevatedButtonWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+            borderRadius: const BorderRadius.all(Radius.circular(12))),
         height: 50,
         width: 150,
       ),

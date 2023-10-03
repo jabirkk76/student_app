@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app_ruff/controller/add_student_controller.dart';
-import 'package:student_app_ruff/controller/home_controller.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
-import 'package:student_app_ruff/helpers/app_sizes.dart';
-import 'package:student_app_ruff/services/prefs_manager.dart';
-import 'package:student_app_ruff/view/add_student_screen/add_student_screen.dart';
+import 'package:student_app/controller/add_student_controller.dart';
+import 'package:student_app/controller/home_controller.dart';
+import 'package:student_app/controller/settings_controller.dart';
+import 'package:student_app/helpers/app_colors.dart';
+import 'package:student_app/services/prefs_manager.dart';
+import 'package:student_app/view/add_student_screen/add_student_screen.dart';
 
+import '../../helpers/app_sizes.dart';
 import 'widgets/dialog_box_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    homeController.getAllStudents(userId: userId.toString());
+    homeController.getAllStudents();
+    Provider.of<SettingsController>(context, listen: false).fetchUserName();
     super.initState();
   }
 
@@ -59,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return Center(
             child: Text(
               value.errorMsg,
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontSize: 22, color: AppColors.red),
             ),
           );
         } else if (value.students.isEmpty) {
@@ -99,10 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.green,
                                       icon: Icons.archive,
                                       onTap: () {
-                                        final addStudentController =
-                                            Provider.of<AddStudentController>(
-                                                context,
-                                                listen: false);
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) =>
@@ -111,11 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ));
 
-                                        addStudentController.editStudent(
-                                            context,
-                                            studentId: addStudentController
-                                                    .studentModel?.student.id ??
-                                                "");
                                         Provider.of<AddStudentController>(
                                                 context,
                                                 listen: false)
@@ -235,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.white,
         ),
         onPressed: () {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
+          Navigator.of(context).push(MaterialPageRoute(
             builder: (context) =>
                 const AddStudentScreen(twoScreens: TwoScreens.add),
           ));

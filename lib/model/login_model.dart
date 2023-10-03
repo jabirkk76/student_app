@@ -15,12 +15,12 @@ class LoginPostModel {
 
 class LoginResponseModel {
   bool success;
-  Data? data;
+  Data data;
   String token;
 
   LoginResponseModel({
     required this.success,
-    this.data,
+    required this.data,
     required this.token,
   });
 
@@ -33,21 +33,19 @@ class LoginResponseModel {
 }
 
 class Data {
-  String? id;
+  String id;
   String username;
   String email;
   String password;
-  List<dynamic> students;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
 
   Data({
-    this.id,
+    required this.id,
     required this.username,
     required this.email,
     required this.password,
-    required this.students,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -58,7 +56,6 @@ class Data {
         username: json["username"],
         email: json["email"],
         password: json["password"],
-        students: List<dynamic>.from(json["students"].map((x) => x)),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],

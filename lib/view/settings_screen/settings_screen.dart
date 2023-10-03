@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app_ruff/controller/settings_controller.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
-import 'package:student_app_ruff/helpers/app_sizes.dart';
-import 'package:student_app_ruff/view/settings_screen/widgets/custom_settings_widget.dart';
-import 'package:student_app_ruff/widgets/custom_elevated_button_widget.dart';
+import 'package:student_app/controller/settings_controller.dart';
+import 'package:student_app/helpers/app_colors.dart';
+import 'package:student_app/widgets/custom_elevated_button_widget.dart';
+
+import '../../helpers/app_sizes.dart';
+import 'widgets/custom_settings_widget.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key});
+  const SettingsScreen({super.key, Key? keys});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +27,24 @@ class SettingsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Consumer<SettingsController>(
             builder: (context, value, child) {
+              if (value.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (value.errorMsg != '') {
+                return Center(
+                  child: Text(
+                    value.errorMsg,
+                    style: TextStyle(fontSize: 22, color: AppColors.red),
+                  ),
+                );
+              }
               return Column(
                 children: [
                   Row(
                     children: [
                       Text(
-                        "hi ${value.storedUserName ?? ""} ,",
+                        "Hi ${value.storedUserName ?? ""} ,",
                         style: TextStyle(fontSize: 22, color: AppColors.black),
                       ),
                     ],

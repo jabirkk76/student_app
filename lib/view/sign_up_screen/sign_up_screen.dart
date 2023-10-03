@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:student_app_ruff/controller/sign_up_controller.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
-import 'package:student_app_ruff/helpers/app_sizes.dart';
-import 'package:student_app_ruff/widgets/custom_elevated_button_widget.dart';
-import 'package:student_app_ruff/widgets/custom_text_form_field_widget.dart';
-import 'package:student_app_ruff/widgets/obscure_text_form_field-widget.dart';
+import 'package:student_app/helpers/app_colors.dart';
+import 'package:student_app/helpers/app_sizes.dart';
+import 'package:student_app/widgets/custom_elevated_button_widget.dart';
+import 'package:student_app/widgets/obscure_text_form_field-widget.dart';
+
+import '../../controller/sign_up_controller.dart';
+import '../../widgets/custom_text_form_field_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -35,8 +36,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
           key: formKey,
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: Consumer<SignUpController>(
-              builder: (context, value, child) => Column(
+            child: Consumer<SignUpController>(builder: (context, value, child) {
+              if (value.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (value.errorMsg != '') {
+                return Center(
+                  child: Text(
+                    value.errorMsg,
+                    style: TextStyle(fontSize: 22, color: AppColors.red),
+                  ),
+                );
+              }
+              return Column(
                 children: [
                   CustomTextFormFieldWidget(
                     keyBoard: TextInputType.name,
@@ -86,8 +99,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   )
                 ],
-              ),
-            ),
+              );
+            }),
           ),
         ),
       ),

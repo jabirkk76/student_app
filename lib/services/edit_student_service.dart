@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:student_app/model/edit_student_model.dart';
 
-import 'package:student_app_ruff/constants/constants.dart';
-import 'package:student_app_ruff/model/edit_student_model.dart';
-import 'package:student_app_ruff/services/prefs_manager.dart';
+import 'prefs_manager.dart';
 
 class EditStudentService {
   Future<EditStudentResponseModel?> edit(
@@ -13,14 +12,9 @@ class EditStudentService {
       String? studentId}) async {
     try {
       final token = await PrefsManager().getToken();
-      const url = "http://${Constants.ipAddress}:3000/student/";
+      const url = "https://std-app-server.onrender.com/student/";
       final response = await http.put(
-        Uri.parse(url).replace(
-          queryParameters: {
-            "userId": userId,
-            "studentId": studentId,
-          },
-        ),
+        Uri.parse(url),
         body: json.encode(
           json.decode(
             json.encode(editStudentPostModel.toJson()),

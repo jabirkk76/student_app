@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:student_app_ruff/controller/add_student_controller.dart';
-import 'package:student_app_ruff/controller/home_controller.dart';
-import 'package:student_app_ruff/controller/login_controller.dart';
-import 'package:student_app_ruff/controller/settings_controller.dart';
-import 'package:student_app_ruff/controller/sign_up_controller.dart';
-import 'package:student_app_ruff/controller/splash_controller.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
+import 'package:student_app/controller/add_student_controller.dart';
+import 'package:student_app/controller/login_controller.dart';
+import 'package:student_app/controller/settings_controller.dart';
+import 'package:student_app/controller/sign_up_controller.dart';
+import 'package:student_app/controller/splash_controller.dart';
+import 'package:student_app/helpers/app_colors.dart';
 
+import 'controller/home_controller.dart';
 import 'view/splash_screen/splash_screen.dart';
 
 void main() {

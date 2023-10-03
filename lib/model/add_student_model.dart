@@ -3,19 +3,21 @@ class AddStudentPostModel {
   String age;
   String domain;
   String gender;
+  String userId;
 
-  AddStudentPostModel({
-    required this.name,
-    required this.age,
-    required this.domain,
-    required this.gender,
-  });
+  AddStudentPostModel(
+      {required this.name,
+      required this.age,
+      required this.domain,
+      required this.gender,
+      required this.userId});
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "age": age,
         "domain": domain,
         "gender": gender,
+        "userId": userId
       };
 }
 
@@ -37,15 +39,25 @@ class AddStudentResponseModel {
 
 class Data {
   String name;
-  String age;
+  int age;
   String domain;
   String gender;
+  String userId;
+  String id;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int v;
 
   Data({
     required this.name,
     required this.age,
     required this.domain,
     required this.gender,
+    required this.userId,
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -53,5 +65,10 @@ class Data {
         age: json["age"],
         domain: json["domain"],
         gender: json["gender"],
+        userId: json["userId"],
+        id: json["_id"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
       );
 }

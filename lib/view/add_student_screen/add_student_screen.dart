@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:student_app/controller/add_student_controller.dart';
+import 'package:student_app/helpers/app_colors.dart';
+import 'package:student_app/helpers/app_sizes.dart';
+import 'package:student_app/widgets/drop_down_form_field_widget.dart';
 
-import 'package:student_app_ruff/controller/add_student_controller.dart';
-import 'package:student_app_ruff/controller/home_controller.dart';
-import 'package:student_app_ruff/helpers/app_colors.dart';
-import 'package:student_app_ruff/helpers/app_sizes.dart';
-import 'package:student_app_ruff/view/home_screen/home_screen.dart';
-import 'package:student_app_ruff/widgets/drop_down_form_field_widget.dart';
+import '../../controller/home_controller.dart';
 
 enum TwoScreens {
   add,
@@ -29,7 +28,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         centerTitle: true,
         title: widget.twoScreens == TwoScreens.add
             ? Text(
@@ -48,6 +46,13 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else if (value.errorMsg != '') {
+            return Center(
+              child: Text(
+                value.errorMsg,
+                style: TextStyle(fontSize: 22, color: AppColors.red),
+              ),
+            );
           } else {
             return SafeArea(
               child: Center(
@@ -62,7 +67,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                           TextFormField(
                             controller: widget.twoScreens == TwoScreens.add
                                 ? value.nameController
-                                : value.editNameController,
+                                : value.nameController,
                             decoration: const InputDecoration(
                               hintText: 'Email',
                               border: OutlineInputBorder(),
@@ -80,10 +85,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                             keyboardType: TextInputType.phone,
                             controller: widget.twoScreens == TwoScreens.add
                                 ? value.ageController
-                                : value.editAgeController,
+                                : value.ageController,
                             decoration: const InputDecoration(
-                              hintText: 'Age',
                               border: OutlineInputBorder(),
+                              hintText: 'Age',
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -97,6 +102,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                           widget.twoScreens == TwoScreens.add
                               ? DropdownButtonFormField<String>(
                                   decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
                                     hintText: 'Choose Domain',
                                   ),
                                   value: null,
@@ -129,6 +135,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                           widget.twoScreens == TwoScreens.add
                               ? DropdownButtonFormField<String>(
                                   decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
                                     hintText: 'Choose Gender',
                                   ),
                                   value: null,
@@ -169,14 +176,10 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                                             studentId: value
                                                     .studentModel?.student.id ??
                                                 "");
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomeScreen(),
-                                        ));
                                         Provider.of<HomeController>(context,
                                                 listen: false)
                                             .getAllStudents();
+                                        //
                                       });
                                     }
                                   },

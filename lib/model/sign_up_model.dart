@@ -40,7 +40,6 @@ class Data {
   String email;
   String password;
   String id;
-  List<dynamic> students;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
@@ -50,7 +49,6 @@ class Data {
     required this.email,
     required this.password,
     required this.id,
-    required this.students,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -61,7 +59,6 @@ class Data {
         email: json["email"],
         password: json["password"],
         id: json["_id"],
-        students: List<dynamic>.from(json["students"].map((x) => x)),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],

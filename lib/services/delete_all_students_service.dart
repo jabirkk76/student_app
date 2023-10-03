@@ -4,28 +4,28 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'package:student_app_ruff/constants/constants.dart';
-import 'package:student_app_ruff/model/delete_all_model.dart';
-import 'package:student_app_ruff/services/prefs_manager.dart';
+import 'package:student_app/model/delete_all_model.dart';
+
+import 'prefs_manager.dart';
 
 class DeleteAllStudentsService {
-  Future<DeleteAllModel?> deleteAll(BuildContext context,
+  Future<(String?, DeleteAllModel?)> deleteAll(BuildContext context,
       {required String userId}) async {
     try {
       final token = await PrefsManager().getToken();
-      const url = "http://${Constants.ipAddress}:3000/student/";
-      final response = await http.delete(
-          Uri.parse(url).replace(queryParameters: {"userId": userId}),
-          headers: {"Authorization": "Bearer $token"});
+      const url = "https://std-app-server.onrender.com/student/";
+      final response = await http.delete(Uri.parse(url),
+          headers: {"Authorization": "Bearer $token"},
+          body: {"userId": userId});
       final data = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        return DeleteAllModel.fromJson(data);
+        return (null, DeleteAllModel.fromJson(data));
       } else {
-        return null;
+        return ('Failed fetching data', null);
       }
     } catch (e) {
-      return null;
+      return ('Something went wrong', null);
     }
   }
 }

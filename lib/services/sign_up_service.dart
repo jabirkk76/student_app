@@ -1,15 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-
-import 'package:student_app_ruff/constants/constants.dart';
-import 'package:student_app_ruff/model/sign_up_model.dart';
+import 'package:student_app/model/sign_up_model.dart';
 
 class SignUpService {
-  Future<SignUpResponseModel?> signUp(
+  Future<(String?, SignUpResponseModel?)> signUp(
       {required SignUpPostModel signUpPostModel}) async {
     try {
-      const url = "http://${Constants.ipAddress}:3000/user/signup/";
+      const url = "https://std-app-server.onrender.com/user/signup/";
       final response = await http.post(
         Uri.parse(url),
         body: json.encode(
@@ -24,12 +22,12 @@ class SignUpService {
       );
       final data = json.decode(response.body);
       if (data['success'] == true) {
-        return SignUpResponseModel.fromJson(data);
+        return (null, SignUpResponseModel.fromJson(data));
       } else {
-        return null;
+        return ('Failed to Sign up', null);
       }
     } catch (e) {
-      return null;
+      return ('Something went wrong', null);
     }
   }
 }
