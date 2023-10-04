@@ -7,6 +7,7 @@ import 'package:student_app/controller/settings_controller.dart';
 import 'package:student_app/controller/sign_up_controller.dart';
 import 'package:student_app/controller/splash_controller.dart';
 import 'package:student_app/helpers/app_colors.dart';
+import 'package:student_app/widgets/dismmiss_keyboard_widget.dart';
 
 import 'controller/home_controller.dart';
 import 'view/splash_screen/splash_screen.dart';
@@ -41,21 +42,23 @@ class MyApp extends StatelessWidget {
           create: (context) => SettingsController(),
         )
       ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            fontFamily: 'PTSansCaption',
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-            appBarTheme: AppBarTheme(
-              centerTitle: true,
-              iconTheme: IconThemeData(
-                color: AppColors.white,
+      child: DismissKeyboardWidget(
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              fontFamily: 'PTSansCaption',
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+              appBarTheme: AppBarTheme(
+                centerTitle: true,
+                iconTheme: IconThemeData(
+                  color: AppColors.white,
+                ),
               ),
             ),
-          ),
-          home: const SplashScreen()),
+            home: const SplashScreen()),
+      ),
     );
   }
 }

@@ -63,9 +63,15 @@ class SettingsController with ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: AppColors.green,
         content: const Center(child: Text('Logged out successfully'))));
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => const LoginScreen(),
-    ));
+    // Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //   builder: (context) => const LoginScreen(),
+    // ));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+        (route) => false);
   }
 
   void share() async {

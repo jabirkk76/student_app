@@ -41,15 +41,6 @@ class SettingsScreen extends StatelessWidget {
               }
               return Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Hi ${value.storedUserName ?? ""} ,",
-                        style: TextStyle(fontSize: 22, color: AppColors.black),
-                      ),
-                    ],
-                  ),
-                  AppSizes.szdh30,
                   CustomSettingsWidget(
                     onTap: () {
                       value.deleteAllStudents(context);
@@ -65,7 +56,7 @@ class SettingsScreen extends StatelessWidget {
                         builder: (context) {
                           return Dialog(
                             child: SizedBox(
-                              height: 200,
+                              height: 270,
                               child: Padding(
                                 padding: const EdgeInsets.all(20),
                                 child: Column(
@@ -76,21 +67,22 @@ class SettingsScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                               color: AppColors.primary,
                                               shape: BoxShape.circle),
-                                          height: 50,
-                                          width: 50,
+                                          height: 70,
+                                          width: 70,
                                           child: const Center(
                                             child: Text(
-                                              'STUDU',
+                                              'SKILLSPIRE',
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
+                                                color: Colors.white,
+                                                fontSize: 10,
+                                              ),
                                             ),
                                           ),
                                         ),
                                         const SizedBox(
                                           width: 10,
                                         ),
-                                        const Text('STUDU'),
+                                        const Text('SKILLSPIRE'),
                                         const SizedBox(
                                           width: 10,
                                         ),
@@ -99,7 +91,7 @@ class SettingsScreen extends StatelessWidget {
                                     ),
                                     AppSizes.szdh20,
                                     const Text(
-                                        'This is your Student app. Designed for saving the details of your students.'),
+                                        'SkillSpire is an easy-to-use student information system to help your school save time,improve enrollment, and fullfill its mission.'),
                                     AppSizes.szdh20,
                                     const Row(
                                       children: [

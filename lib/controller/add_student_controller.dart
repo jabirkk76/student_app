@@ -97,7 +97,7 @@ class AddStudentController with ChangeNotifier {
   void editStudent(BuildContext context, {required String studentId}) async {
     isLoading = true;
     notifyListeners();
-    print('Gender chosen before edit: $genderChosen');
+
     await EditStudentService()
         .edit(
       editStudentPostModel: EditStudentPostModel(
@@ -127,7 +127,6 @@ class AddStudentController with ChangeNotifier {
     });
 
     isLoading = false;
-    print('Gender chosen after edit: $genderChosen');
     notifyListeners();
   }
 }

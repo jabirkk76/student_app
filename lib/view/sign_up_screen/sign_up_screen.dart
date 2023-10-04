@@ -19,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   late final signUpController =
       Provider.of<SignUpController>(context, listen: false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,18 +53,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return Column(
                 children: [
                   CustomTextFormFieldWidget(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter a Username';
+                      } else {
+                        return null;
+                      }
+                    },
                     keyBoard: TextInputType.name,
                     controller: signUpController.userNameController,
                     hint: 'Username',
                   ),
                   AppSizes.szdh20,
                   CustomTextFormFieldWidget(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter an Email ID';
+                      } else {
+                        return null;
+                      }
+                    },
                     keyBoard: TextInputType.name,
                     controller: signUpController.emailController,
                     hint: 'Email ID',
                   ),
                   AppSizes.szdh20,
                   ObscureTextFormfieldWidget(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter a Password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      } else {
+                        return null;
+                      }
+                    },
                     controller: signUpController.passwordController,
                     icon: Icon(
                       value.isObscure ? Icons.visibility : Icons.visibility_off,

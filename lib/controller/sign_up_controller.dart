@@ -14,6 +14,15 @@ class SignUpController with ChangeNotifier {
   bool isObscure = true;
   bool isLoading = false;
   SignUpPostModel? signUpPostModel;
+
+  void resetErrorState() {
+    userNameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    errorMsg = '';
+    notifyListeners();
+  }
+
   void signUp(BuildContext context) async {
     isLoading = true;
     notifyListeners();
@@ -24,7 +33,7 @@ class SignUpController with ChangeNotifier {
             password: passwordController.text));
 
     if (serviceResponse != null) {
-      Navigator.of(context).push(MaterialPageRoute(
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ));
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

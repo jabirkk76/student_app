@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_app/controller/login_controller.dart';
+import 'package:student_app/controller/sign_up_controller.dart';
 import 'package:student_app/helpers/app_colors.dart';
 import 'package:student_app/helpers/app_sizes.dart';
 
@@ -54,11 +55,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomTextFormFieldWidget(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid Email ID';
+                          } else {
+                            return null;
+                          }
+                        },
                         keyBoard: TextInputType.name,
                         controller: loginController.emailController,
                         hint: 'Email ID'),
                     AppSizes.szdh20,
                     ObscureTextFormfieldWidget(
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter a valid Password';
+                        } else {
+                          return null;
+                        }
+                      },
                       controller: loginController.passwordController,
                       icon: Icon(
                         value.isObscure
@@ -83,9 +98,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const Text('Don\'t have an account?'),
+                        Text(
+                          'Don\'t have an account?',
+                          style: TextStyle(color: AppColors.black),
+                        ),
                         TextButton(
                             onPressed: () {
+                              context
+                                  .read<SignUpController>()
+                                  .resetErrorState();
                               loginController.gotoSignUp(context);
                             },
                             child: Text(

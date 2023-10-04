@@ -1,5 +1,3 @@
-// ignore_for_file: sort_child_properties_last
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +13,8 @@ import 'widgets/dialog_box_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -38,181 +36,199 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.primary,
-        centerTitle: true,
-        title: Text(
-          'STUDENTS',
-          style: TextStyle(color: AppColors.white),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                homeController.gotoSettings(context);
-              },
-              icon: const Icon(Icons.settings)),
-        ],
-      ),
-      body: Consumer<HomeController>(builder: (ctx, value, child) {
-        if (value.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (value.errorMsg != '') {
-          return Center(
-            child: Text(
-              value.errorMsg,
-              style: TextStyle(fontSize: 22, color: AppColors.red),
-            ),
-          );
-        } else if (value.students.isEmpty) {
-          return const Center(
-            child: Text(
-              'No Student found',
-              style: TextStyle(fontSize: 22),
-            ),
-          );
-        } else {
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: value.students.length,
-                        itemBuilder: (context, index) {
-                          if (value.students.isEmpty) {
-                            return const Text('No data found');
-                          } else if (value.isLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: Container(
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Slidable(
-                                  actions: [
-                                    IconSlideAction(
-                                      caption: 'Edit',
-                                      color: Colors.green,
-                                      icon: Icons.archive,
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              const AddStudentScreen(
-                                            twoScreens: TwoScreens.edit,
-                                          ),
-                                        ));
-
-                                        Provider.of<AddStudentController>(
-                                                context,
-                                                listen: false)
-                                            .getStudentDetails(
-                                          context,
-                                          value.students[index].id,
-                                        );
-                                      },
-                                    ),
-                                    IconSlideAction(
-                                      caption: 'Delete',
-                                      color: Colors.red,
-                                      icon: Icons.delete,
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => DialogBoxWidget(
-                                            text: 'Do you want to Delete ?',
-                                            onTap: () {
-                                              value.deleteStudent(context,
-                                                  studentId: Provider.of<
-                                                              HomeController>(
-                                                          context,
-                                                          listen: false)
-                                                      .students[index]
-                                                      .id);
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                  actionExtentRatio: 0.5,
-                                  actionPane: const SlidableDrawerActionPane(),
-                                  child: Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(20),
-                                        ),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            AppColors.primary.withOpacity(0.8),
-                                            AppColors.blue.withOpacity(0.4),
-                                          ],
-                                        ),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 10),
-                                      alignment: Alignment.centerLeft,
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            value.students[index].gender ==
-                                                    'Male'
-                                                ? 'assets/man.png'
-                                                : 'assets/woman.png',
-                                            height: 40,
-                                            width: 40,
-                                          ),
-                                          AppSizes.szdw20,
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                value.students[index].name,
-                                                style: const TextStyle(
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Domain: ${value.students[index].domain}',
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            value.students[index].age
-                                                .toString(),
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                ),
-                              ),
-                            );
-                          }
-                        }),
-                  ),
-                ],
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            actions: [
+              IconButton(
+                onPressed: () {
+                  homeController.gotoSettings(context);
+                },
+                icon: const Icon(Icons.settings),
+              ),
+            ],
+            automaticallyImplyLeading: false,
+            backgroundColor: AppColors.primary,
+            centerTitle: true,
+            flexibleSpace: Consumer<SettingsController>(
+              builder: (context, v, child) => Container(
+                color: AppColors.primary,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      'Hi, ${v.storedUserName}',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      getWish(),
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          );
-        }
-      }),
+            expandedHeight: 150,
+            pinned: true,
+          ),
+          Consumer<HomeController>(builder: (context, value, child) {
+            if (value.isLoading) {
+              return const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(child: CircularProgressIndicator()),
+              );
+            } else if (value.errorMsg != '') {
+              return SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Text(
+                    value.errorMsg,
+                    style: TextStyle(fontSize: 22, color: AppColors.red),
+                  ),
+                ),
+              );
+            } else if (value.students.isEmpty) {
+              return SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Text(
+                    'No student found',
+                    style: TextStyle(fontSize: 22, color: AppColors.black),
+                  ),
+                ),
+              );
+            } else {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 20, right: 20),
+                      child: Container(
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Slidable(
+                          actions: [
+                            IconSlideAction(
+                              caption: 'Edit',
+                              color: Colors.green,
+                              icon: Icons.archive,
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const AddStudentScreen(
+                                    twoScreens: TwoScreens.edit,
+                                  ),
+                                ));
+                                Provider.of<AddStudentController>(context,
+                                        listen: false)
+                                    .getStudentDetails(
+                                  context,
+                                  value.students[index].id,
+                                );
+                              },
+                            ),
+                            IconSlideAction(
+                              caption: 'Delete',
+                              color: Colors.red,
+                              icon: Icons.delete,
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => DialogBoxWidget(
+                                    text: 'Do you want to Delete ?',
+                                    onTap: () {
+                                      value.deleteStudent(context,
+                                          studentId:
+                                              Provider.of<HomeController>(
+                                                      context,
+                                                      listen: false)
+                                                  .students[index]
+                                                  .id);
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                          actionExtentRatio: 0.5,
+                          actionPane: const SlidableDrawerActionPane(),
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(20),
+                              ),
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppColors.primary.withOpacity(0.8),
+                                  AppColors.blue.withOpacity(0.4),
+                                ],
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  value.students[index].gender == 'Male'
+                                      ? 'assets/man.png'
+                                      : 'assets/woman.png',
+                                  height: 40,
+                                  width: 40,
+                                ),
+                                AppSizes.szdw20,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      value.students[index].name,
+                                      style: const TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Domain: ${value.students[index].domain}',
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                Text(
+                                  value.students[index].age.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  childCount: value.students.length,
+                ),
+              );
+            }
+          })
+        ],
+      ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.primary,
         label: Text(
@@ -235,5 +251,17 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  String getWish() {
+    if (DateTime.now().hour < 12 && DateTime.now().hour > 0) {
+      return 'Good morning';
+    } else if (DateTime.now().hour > 12 && DateTime.now().hour < 15) {
+      return 'Good afternoon';
+    } else if (DateTime.now().hour > 15 && DateTime.now().hour < 19) {
+      return 'Good evening';
+    } else {
+      return 'Good night';
+    }
   }
 }

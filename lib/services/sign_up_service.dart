@@ -22,7 +22,8 @@ class SignUpService {
       );
       final data = json.decode(response.body);
       if (data['success'] == true) {
-        return (null, SignUpResponseModel.fromJson(data));
+        final result = SignUpResponseModel.fromJson(data);
+        return (null, result);
       } else {
         return ('Failed to Sign up', null);
       }
