@@ -63,33 +63,29 @@ class AddStudentController with ChangeNotifier {
     isLoading = true;
     notifyListeners();
     String? storedUserId = await PrefsManager().getUserId();
-    await AddStudentService()
-        .add(
+    final (msg, serviceResponse) = await AddStudentService().add(
       addStudentPostModel: AddStudentPostModel(
           name: nameController.text,
           age: ageController.text,
           domain: domainChosen.toString(),
           gender: genderChosen.toString(),
           userId: storedUserId.toString()),
-    )
-        .then((serviceResponse) {
-      if (serviceResponse != null) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: AppColors.green,
-            content: const Center(child: Text('New Student Created'))));
-        Provider.of<HomeController>(context, listen: false).getAllStudents();
-        notifyListeners();
-        nameController.clear();
-        ageController.clear();
+    );
 
-        Navigator.of(context).pop();
-      } else {
-        return null;
-      }
-      isLoading = false;
+    if (serviceResponse != null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: AppColors.green,
+          content: const Center(child: Text('New Student Created'))));
+      Provider.of<HomeController>(context, listen: false).getAllStudents();
       notifyListeners();
-    });
+      nameController.clear();
+      ageController.clear();
 
+      Navigator.of(context).pop();
+    } else {
+      errorMsg = msg!;
+      notifyListeners();
+    }
     isLoading = false;
     notifyListeners();
   }
@@ -98,8 +94,7 @@ class AddStudentController with ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    await EditStudentService()
-        .edit(
+    final (msg, serviceResponse) = await EditStudentService().edit(
       editStudentPostModel: EditStudentPostModel(
         studentId: studentId,
         name: nameController.text.isEmpty
@@ -114,17 +109,17 @@ class AddStudentController with ChangeNotifier {
         domain: domainChosen ?? studentModel?.student.domain.toString() ?? "",
         gender: genderChosen ?? studentModel?.student.gender.toString() ?? "",
       ),
-    )
-        .then((serviceResponse) {
-      if (serviceResponse != null) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: AppColors.green,
-            content: const Center(child: Text('Edited successfully'))));
-      } else {
-        return null;
-      }
-    });
+    );
+
+    if (serviceResponse != null) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: AppColors.green,
+          content: const Center(child: Text('Edited successfully'))));
+    } else {
+      errorMsg = msg!;
+      notifyListeners();
+    }
 
     isLoading = false;
     notifyListeners();

@@ -7,7 +7,7 @@ import 'package:student_app/model/add_student_model.dart';
 import 'prefs_manager.dart';
 
 class AddStudentService {
-  Future<AddStudentResponseModel?> add({
+  Future<(String?, AddStudentResponseModel?)> add({
     required AddStudentPostModel addStudentPostModel,
   }) async {
     try {
@@ -29,13 +29,19 @@ class AddStudentService {
       final data = json.decode(response.body);
       log(response.body);
       if (data['success'] == true) {
-        return AddStudentResponseModel.fromJson(data);
+        return (null, AddStudentResponseModel.fromJson(data));
       } else {
-        return null;
+        return (
+          'Fetching details failed',
+          null,
+        );
       }
     } catch (e) {
       log(e.toString());
-      return null;
+      return (
+        'Something went wrong',
+        null,
+      );
     }
   }
 }

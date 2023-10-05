@@ -115,7 +115,7 @@ class SettingsScreen extends StatelessWidget {
                       );
                     },
                     text: 'About Us',
-                    icon: Icons.details_outlined,
+                    icon: Icons.info,
                   ),
                   AppSizes.szdh20,
                   CustomSettingsWidget(

@@ -6,7 +6,7 @@ import 'package:student_app/model/edit_student_model.dart';
 import 'prefs_manager.dart';
 
 class EditStudentService {
-  Future<EditStudentResponseModel?> edit(
+  Future<(String?, EditStudentResponseModel?)> edit(
       {required EditStudentPostModel editStudentPostModel,
       String? userId,
       String? studentId}) async {
@@ -28,12 +28,12 @@ class EditStudentService {
       final data = json.decode(response.body);
 
       if (data['success'] == true) {
-        return EditStudentResponseModel.fromJson(data);
+        return (null, EditStudentResponseModel.fromJson(data));
       } else {
-        return null;
+        return ('Fetching details failed', null);
       }
     } catch (e) {
-      return null;
+      return ('Something went wrong', null);
     }
   }
 }
