@@ -88,7 +88,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                               : value.ageController,
                           decoration: InputDecoration(
                             hoverColor: AppColors.green,
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             hintText: 'Age',
                           ),
                           validator: (value) {

@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text(
                       'Hi, ${v.storedUserName}',
                       style: TextStyle(
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       getWish(),
                       style: TextStyle(
