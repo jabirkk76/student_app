@@ -16,6 +16,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final RegExp emailRegExp = RegExp(
+    r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+  );
   final formKey = GlobalKey<FormState>();
   late final signUpController =
       Provider.of<SignUpController>(context, listen: false);
@@ -69,6 +72,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Enter an Email ID';
+                      } else if (!emailRegExp.hasMatch(value)) {
+                        return 'Please enter a valid email address.';
                       } else {
                         return null;
                       }
